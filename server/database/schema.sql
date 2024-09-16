@@ -1,12 +1,23 @@
 create table user (
-  id int unsigned primary key auto_increment not null,
-  email varchar(255) not null unique,
-  password varchar(255) not null
+    id int unsigned primary key auto_increment not null,
+    username VARCHAR(50) not null UNIQUE,
+    email varchar(50) not null unique,
+    hashed_password varchar(255) not null
 );
 
-create table item (
-  id int unsigned primary key auto_increment not null,
-  title varchar(255) not null,
-  user_id int unsigned not null,
-  foreign key(user_id) references user(id)
+create table note (
+    id int unsigned primary key auto_increment not null,
+    title VARCHAR(50) not null,
+    content VARCHAR(255) not null,
+    is_shared BOOLEAN not null DEFAULT false
 );
+
+create table SharedNote (
+    id int unsigned primary key auto_increment not null,
+    user_id int unsigned not null,
+    note_id int unsigned not null,
+    is_hidden BOOLEAN not null DEFAULT false,
+    shared_email VARCHAR(50) not null,
+    FOREIGN KEY (user_id) REFERENCES user (id),
+    FOREIGN KEY (note_id) REFERENCES note (id)
+)

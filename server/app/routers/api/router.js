@@ -2,14 +2,18 @@ const express = require("express");
 
 const router = express.Router();
 
-/* ************************************************************************* */
-// Import And Use Routers Here
-/* ************************************************************************* */
+const { verifyToken } = require("../../services/auth");
 
-const itemsRouter = require("./items/router");
+const authRouter = require("../../controllers/authActions");
 
-router.use("/items", itemsRouter);
+router.post("/login", authRouter.login);
 
-/* ************************************************************************* */
+router.get("/verify-auth", verifyToken, authRouter.isLoggedIn);
+
+router.get("/logout", verifyToken, authRouter.logout);
+
+const usersRouter = require("./users/router");
+
+router.use("/users", usersRouter);
 
 module.exports = router;
