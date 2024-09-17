@@ -10,32 +10,27 @@ const userController = require("../../../controllers/userActions");
 
 const { hashPassword, verifyToken } = require("../../../services/auth");
 
-// Route to get a list of items
-router.get("/", verifyToken, userController.browse);
-
 // Route to get a specific item by ID
-router.get("/:id", verifyToken, userController.read);
+
+router.get("/notes", verifyToken, userController.browseNotes);
 
 // Route to add a new item
 router.post("/", hashPassword, userController.add);
 
 const {
-  browse,
   read,
   add,
   destroy,
   edit,
 } = require("../../../controllers/noteActions");
 
-router.get("/user/:id/notes", verifyToken, browse);
+router.get("/notes/:id", verifyToken, read);
 
-router.get("/user/:id/notes/:id", verifyToken, read);
+router.post("/notes/:id", verifyToken, add);
 
-router.post("/user/:id/notes/:id", verifyToken, add);
+router.delete("/notes/:id", verifyToken, destroy);
 
-router.delete("/user/:id/notes/:id", verifyToken, destroy);
-
-router.put("/user/:id/notes/:id", verifyToken, edit);
+router.put("/notes/:id", verifyToken, edit);
 
 /* ************************************************************************* */
 

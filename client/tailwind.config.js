@@ -3,8 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      backgroundImage: {
+      backgroundImages: {
         "login-register-bg": "url(./src/assets/images/bg-1.png)",
+        "profile-bg": "url(./src/assets/images/bg-profile.png)",
       },
       fontFamily: {
         gloria: ["Gloria Hallelujah", "cursive"],

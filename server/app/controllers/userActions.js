@@ -1,9 +1,9 @@
 const tables = require("../../database/tables");
 
-const browse = async (req, res, next) => {
+const browseNotes = async (req, res, next) => {
   try {
-    const users = await tables.user.readAll();
-    res.json(users);
+    const notes = await tables.user.getNotes(req.auth.sub);
+    res.json(notes);
   } catch (err) {
     next(err);
   }
@@ -47,7 +47,7 @@ const add = async (req, res, next) => {
 };
 
 module.exports = {
-  browse,
+  browseNotes,
   read,
   add,
 };

@@ -2,15 +2,6 @@
 const tables = require("../../database/tables");
 
 // The B of BREAD - Browse (Read All) operation
-const browse = async (req, res, next) => {
-  try {
-    // Fetch all notes from the database
-    const notes = await tables.note.readAll();
-    res.json(notes);
-  } catch (err) {
-    next(err);
-  }
-};
 
 // The R of BREAD - Read operation
 const read = async (req, res, next) => {
@@ -43,9 +34,10 @@ const edit = async (req, res, next) => {
 const add = async (req, res, next) => {
   // Extract the note data from the request body
   const note = req.body;
+  const userID = req.auth.sub;
 
   try {
-    const insertId = await tables.note.create(note);
+    const insertId = await tables.note.create(note, userID);
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted note
     res.status(201).json({ insertId });
@@ -65,7 +57,6 @@ const destroy = async (req, res, next) => {
 
 // Ready to export the controller functions
 module.exports = {
-  browse,
   read,
   edit,
   add,

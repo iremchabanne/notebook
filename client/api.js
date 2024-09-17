@@ -52,3 +52,17 @@ export async function login(formData) {
     throw new Error(err?.message);
   }
 }
+
+export async function getUserNotes() {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/users/notes`,
+    {
+      credentials: "include",
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch notes");
+  }
+  const data = await response.json();
+  return data;
+}

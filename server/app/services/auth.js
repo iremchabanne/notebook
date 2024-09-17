@@ -26,7 +26,7 @@ const verifyToken = (req, res, next) => {
       res.sendStatus(403);
       return;
     }
-    req.autt = jwt.verify(token, process.env.APP_SECRET);
+    req.auth = jwt.verify(token, process.env.APP_SECRET);
     next();
   } catch (err) {
     res.sendStatus(401);

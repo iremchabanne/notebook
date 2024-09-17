@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 
 const { verifyToken } = require("../../services/auth");
-
 const authRouter = require("../../controllers/authActions");
 
 router.post("/login", authRouter.login);

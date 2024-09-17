@@ -5,7 +5,7 @@ import logo from "../assets/images/note-book-logo.png";
 export async function action({ request }) {
   const formData = await request.formData();
   await login(formData);
-  return redirect("/profil");
+  return redirect("/profile");
 }
 
 function Login() {

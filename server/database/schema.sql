@@ -7,9 +7,11 @@ create table user (
 
 create table note (
     id int unsigned primary key auto_increment not null,
+    user_id int unsigned not null,
     title VARCHAR(50) not null,
+    is_shared BOOLEAN not null DEFAULT false,
     content VARCHAR(255) not null,
-    is_shared BOOLEAN not null DEFAULT false
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 create table SharedNote (
