@@ -24,14 +24,8 @@ function Login() {
         </div>
       </div>
       <div className="flex flex-col self-center w-1/3 gap-5">
+        <h3 className="self-center">Log in to see your notes!</h3>
         <Form method="post" className="flex flex-col w-2/3 gap-2">
-          <input
-            className="p-2 border-2 rounded-md border-redd"
-            type="username"
-            name="username"
-            placeholder="Username"
-            required
-          />
           <input
             className="p-2 border-2 rounded-md border-redd"
             type="email"

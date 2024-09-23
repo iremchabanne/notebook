@@ -23,6 +23,20 @@ const read = async (req, res, next) => {
   }
 };
 
+const readMe = async (req, res, next) => {
+  const id = req.auth.sub;
+  try {
+    const user = await tables.user.getMe(id);
+    if (user == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(user);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 const add = async (req, res, next) => {
   try {
     const userExists = await tables.user.readByEmail(req.body.email);
@@ -49,5 +63,6 @@ const add = async (req, res, next) => {
 module.exports = {
   browseNotes,
   read,
+  readMe,
   add,
 };

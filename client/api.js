@@ -33,7 +33,6 @@ export async function login(formData) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: formData.get("username"),
         email: formData.get("email"),
         password: formData.get("password"),
       }),
@@ -44,7 +43,6 @@ export async function login(formData) {
     }
     const userData = {
       id: data?.user?.id,
-      username: data?.user?.username,
       email: data?.user?.email,
     };
     return userData;
@@ -54,15 +52,23 @@ export async function login(formData) {
 }
 
 export async function getUserNotes() {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/users/notes`,
-    {
-      credentials: "include",
+  try {
+    const [noteData, userData] = await Promise.all([
+      fetch(`${import.meta.env.VITE_API_URL}/api/users/notes`, {
+        credentials: "include",
+      }),
+      fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        credentials: "include",
+      }),
+    ]);
+
+    if (!noteData || !userData) {
+      throw new Error("Failed to fetch data");
     }
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch notes");
+    const [note, user] = await Promise.all([noteData.json(), userData.json()]);
+    return { note, user };
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error;
   }
-  const data = await response.json();
-  return data;
 }

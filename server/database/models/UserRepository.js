@@ -33,6 +33,22 @@ class UserRepository extends AbstractRepository {
     return rows[0];
   }
 
+  async readByEmail(email) {
+    const [rows] = await this.database.query(
+      `select * from ${this.table} where email = ?`,
+      [email]
+    );
+    return rows[0];
+  }
+
+  async getMe(id) {
+    const [rows] = await this.database.query(
+      `SELECT * FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+    return rows[0];
+  }
+
   async getNotes(userId) {
     const [rows] = await this.database.query(
       `SELECT * FROM note WHERE user_id = ?`,
@@ -41,14 +57,6 @@ class UserRepository extends AbstractRepository {
 
     // Return the array of notes
     return rows;
-  }
-
-  async readByEmail(email) {
-    const [rows] = await this.database.query(
-      `select * from ${this.table} where email = ?`,
-      [email]
-    );
-    return rows[0];
   }
 }
 

@@ -26,6 +26,7 @@ const login = async (req, res, next) => {
         {
           sub: user.id,
           email: user.email,
+          username: user.username,
         },
         process.env.APP_SECRET,
         {

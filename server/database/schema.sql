@@ -9,7 +9,7 @@ create table note (
     id int unsigned primary key auto_increment not null,
     user_id int unsigned not null,
     title VARCHAR(50) not null,
-    is_shared BOOLEAN not null DEFAULT false,
+    is_shared BOOLEAN DEFAULT false,
     content VARCHAR(255) not null,
     FOREIGN KEY (user_id) REFERENCES user (id)
 );

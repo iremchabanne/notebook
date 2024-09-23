@@ -1,31 +1,68 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { getUserNotes } from "../../api";
 import logo from "../assets/images/note-book-logo.png";
+import AddNote from "../components/AddNote";
+import Note from "../components/Note";
 
 export function loader() {
   return getUserNotes();
 }
 
 function Profile() {
-  const notes = useLoaderData();
+  const { note, user } = useLoaderData();
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logout`, {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        throw new Error("Couldn't log out");
+      }
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
-    <div className="flex w-full">
-      <div className="w-1/3 flex flex-col justify-center h-screen bg-center bg-cover bg-[url('./src/assets/images/bg-profile.png')]">
-        <section>
-          <img src={logo} alt="notebook-lgo" />
-          <p>{notes}</p>
+    <div className="h-screen w-full bg-[url('./src/assets/images/bg-profile.png')]">
+      <nav className="flex items-center justify-between pt-5 pl-10 pr-10">
+        <img className="w-[100px]" src={logo} alt="notebook-lgo" />
+        <ul className="flex flex-col text-xl sm:mr-5">
+          <li className="text-greenn">Hello, {user.username}!</li>
+          <li>
+            <button
+              className="p-2 hover:text-redd"
+              type="button"
+              onClick={handleLogOut}
+            >
+              Log out
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <div className="flex flex-col items-center justify-center w-full sm:flex-row">
+        <section className="w-[400px] rounded-md bg-redd mt-10">
+          <AddNote user={user} />
+        </section>
+        <section className="flex flex-col items-end self-start w-2/3 p-10 ">
+          <div>
+            <h2 className="mt-5 mb-5">My Notes</h2>
+            <div className="flex w-full gap-4 ">
+              {note.map((el) => (
+                <Note
+                  key={el.id}
+                  title={el.title}
+                  content={el.content}
+                  id={el.id}
+                />
+              ))}
+            </div>
+          </div>
         </section>
       </div>
-
-      <section className="flex flex-col items-end w-2/3 p-10">
-        <nav>
-          <ul className="flex gap-2">
-            <li>username</li>
-            <li>log out</li>
-          </ul>
-        </nav>
-      </section>
     </div>
   );
 }
