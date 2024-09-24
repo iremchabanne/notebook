@@ -1,4 +1,5 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { getUserNotes } from "../../api";
 import logo from "../assets/images/note-book-logo.png";
 import AddNote from "../components/AddNote";
@@ -9,6 +10,8 @@ export function loader() {
 }
 
 function Profile() {
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
   const { note, user } = useLoaderData();
   const navigate = useNavigate();
 
@@ -45,7 +48,13 @@ function Profile() {
       </nav>
       <div className="flex flex-col items-center justify-center w-full sm:flex-row">
         <section className="w-[400px] rounded-md bg-redd mt-10">
-          <AddNote user={user} />
+          <AddNote
+            user={user}
+            content={content}
+            setContent={setContent}
+            title={title}
+            setTitle={setTitle}
+          />
         </section>
         <section className="flex flex-col items-end self-start w-2/3 p-10 ">
           <div>

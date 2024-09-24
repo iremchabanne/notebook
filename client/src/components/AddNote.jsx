@@ -1,12 +1,8 @@
-import { useState } from "react";
 import { useRevalidator } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function AddNote() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-
+function AddNote({ title, setTitle, content, setContent }) {
   const revalidator = useRevalidator();
-
   async function handleAddNote(e) {
     e.preventDefault();
     try {
@@ -58,7 +54,7 @@ export default function AddNote() {
         required
         value={content}
         placeholder="type your note"
-        rows="7"
+        rows="5"
       />
 
       <button className="self-end w-1/2 h-10 bg-white rounded-sm" type="submit">
@@ -67,3 +63,12 @@ export default function AddNote() {
     </form>
   );
 }
+
+AddNote.propTypes = {
+  title: PropTypes.string.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  content: PropTypes.string.isRequired,
+  setContent: PropTypes.func.isRequired,
+};
+
+export default AddNote;
