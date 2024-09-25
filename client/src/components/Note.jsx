@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
@@ -6,7 +6,8 @@ function Note({ title, content, id }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedContent, setEditedContent] = useState(content);
-  const navigate = useNavigate();
+  const revalidator = useRevalidator();
+
   const handleDeleteNote = async () => {
     try {
       const response = await fetch(
@@ -19,7 +20,7 @@ function Note({ title, content, id }) {
       if (response.status !== 204) {
         throw new Error("Probleme while deleting a note");
       } else {
-        navigate(0);
+        revalidator.revalidate();
       }
     } catch (error) {
       console.error(error);
@@ -41,10 +42,11 @@ function Note({ title, content, id }) {
           credentials: "include",
         }
       );
-      if (response.status !== 201) {
+      if (response.status !== 204) {
         throw new Error("error while editing note");
       } else {
-        navigate(0);
+        setIsEditing(!isEditing);
+        revalidator.revalidate();
       }
     } catch (err) {
       console.error(err);
@@ -59,7 +61,7 @@ function Note({ title, content, id }) {
           <p>{content}</p>
           <div className="flex gap-10">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => setIsEditing(!isEditing)}
               className="underline text-greenn"
               type="button"
             >
