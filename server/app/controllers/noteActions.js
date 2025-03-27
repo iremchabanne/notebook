@@ -32,15 +32,18 @@ const edit = async (req, res, next) => {
 
 // The A of BREAD - Add (Create) operation
 const add = async (req, res, next) => {
-  // Extract the note data from the request body
   const note = req.body;
   const userID = req.auth.sub;
-
   try {
     const insertId = await tables.note.create(note, userID);
-
-    // Respond with HTTP 201 (Created) and the ID of the newly inserted note
-    res.status(201).json({ insertId });
+    if (note.shared_email === null) {
+      res.status(201).json({ insertId });
+    } else {
+      const sharedUser = await tables.user.readByEmail(note.shared_email);
+      const sharedUserId = sharedUser ? sharedUser.id : null;
+      await tables.SharedNote.create(note.shared_email, insertId, sharedUserId);
+      res.status(201).json({ insertId });
+    }
   } catch (err) {
     next(err);
   }

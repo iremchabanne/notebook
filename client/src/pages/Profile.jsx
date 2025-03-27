@@ -12,6 +12,7 @@ export function loader() {
 function Profile() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
   const { note, user } = useLoaderData();
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ function Profile() {
       if (!res.ok) {
         throw new Error("Couldn't log out");
       }
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
@@ -54,6 +55,8 @@ function Profile() {
             setContent={setContent}
             title={title}
             setTitle={setTitle}
+            email={email}
+            setEmail={setEmail}
           />
         </section>
         <section className="flex flex-col items-end self-start w-2/3 p-10 ">
@@ -69,6 +72,9 @@ function Profile() {
                 />
               ))}
             </div>
+          </div>
+          <div>
+            <h2 className="mt-5 mb-5">Notes Shared With Me</h2>
           </div>
         </section>
       </div>

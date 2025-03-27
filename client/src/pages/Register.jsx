@@ -18,7 +18,9 @@ function Register() {
         <div className="pt-5">
           <ul className="flex flex-col gap-2 list-disc">
             <li className="text-2xl text-redd">Take your notes</li>
-            <li className="text-2xl text-greenn">Share them</li>
+            <li className="text-2xl text-greenn">
+              Share them with your friends
+            </li>
             <li className="text-2xl text-blackk">Plan your week!</li>
           </ul>
         </div>

@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 import { useRevalidator } from "react-router-dom";
 import PropTypes from "prop-types";
 
-function AddNote({ title, setTitle, content, setContent }) {
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+function AddNote({ title, setTitle, content, setContent, email, setEmail }) {
+  const [validEmail, setValidEmail] = useState(false);
+  const [message, setMessage] = useState(false);
+
+  useEffect(() => {
+    setValidEmail(EMAIL_REGEX.test(email));
+  }, [email]);
+
   const revalidator = useRevalidator();
+
   async function handleAddNote(e) {
     e.preventDefault();
     try {
@@ -14,6 +25,7 @@ function AddNote({ title, setTitle, content, setContent }) {
           body: JSON.stringify({
             title,
             content,
+            shared_email: email,
           }),
           credentials: "include",
         }
@@ -23,6 +35,7 @@ function AddNote({ title, setTitle, content, setContent }) {
       } else {
         setTitle("");
         setContent("");
+        setEmail("");
         revalidator.revalidate();
       }
     } catch (err) {
@@ -56,10 +69,37 @@ function AddNote({ title, setTitle, content, setContent }) {
         placeholder="type your note"
         rows="5"
       />
+      <h3 className="text-white">Want to share this note?</h3>
+      <input
+        onClick={() => setMessage(!message)}
+        className="h-10 p-2 rounded-sm "
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        name="email"
+        value={email}
+        placeholder="type your friend's email"
+      />
+      {!validEmail ? (
+        <div>
+          {message && <p>Type a valid email address</p>}
 
-      <button className="self-end w-1/2 h-10 bg-white rounded-sm" type="submit">
-        Create
-      </button>
+          <button
+            className="self-end w-1/2 h-10 bg-white rounded-sm"
+            type="submit"
+          >
+            Create
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button
+            className="self-end w-1/2 h-10 bg-white rounded-sm"
+            type="submit"
+          >
+            Create & Share
+          </button>
+        </div>
+      )}
     </form>
   );
 }
@@ -69,6 +109,8 @@ AddNote.propTypes = {
   setTitle: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,
   setContent: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  setEmail: PropTypes.func.isRequired,
 };
 
 export default AddNote;

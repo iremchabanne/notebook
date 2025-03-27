@@ -72,3 +72,30 @@ export async function getUserNotes() {
     throw error;
   }
 }
+
+// async function handleAddNote(e) {
+//   e.preventDefault();
+//   try {
+//     const response = await fetch(
+//       `${import.meta.env.VITE_API_URL}/api/users/notes`,
+//       {
+//         method: "POST",
+//         headers: { "Content-type": "application/json" },
+//         body: JSON.stringify({
+//           title,
+//           content,
+//         }),
+//         credentials: "include",
+//       }
+//     );
+//     if (response.status !== 201) {
+//       throw new Error("error while creating note");
+//     } else {
+//       setTitle("");
+//       setContent("");
+//       revalidator.revalidate();
+//     }
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
