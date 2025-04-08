@@ -4,6 +4,7 @@ import { getUserNotes } from "../../api";
 import logo from "../assets/images/note-book-logo.png";
 import AddNote from "../components/AddNote";
 import Note from "../components/Note";
+import SharedNote from "../components/SharedNote";
 
 export function loader() {
   return getUserNotes();
@@ -13,7 +14,7 @@ function Profile() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
-  const { note, user } = useLoaderData();
+  const { note, user, sharedNote } = useLoaderData();
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
@@ -75,6 +76,11 @@ function Profile() {
           </div>
           <div>
             <h2 className="mt-5 mb-5">Notes Shared With Me</h2>
+            <div className="flex w-full gap-4 ">
+              {sharedNote.map((el) => (
+                <SharedNote key={el.id} title={el.title} content={el.content} />
+              ))}
+            </div>
           </div>
         </section>
       </div>

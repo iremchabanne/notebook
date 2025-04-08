@@ -53,49 +53,29 @@ export async function login(formData) {
 
 export async function getUserNotes() {
   try {
-    const [noteData, userData] = await Promise.all([
+    const [noteData, userData, sharedNoteData] = await Promise.all([
       fetch(`${import.meta.env.VITE_API_URL}/api/users/notes`, {
         credentials: "include",
       }),
       fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
         credentials: "include",
       }),
+      fetch(`${import.meta.env.VITE_API_URL}/api/users/shared_notes`, {
+        credentials: "include",
+      }),
     ]);
 
-    if (!noteData || !userData) {
+    if (!noteData || !userData || !sharedNoteData) {
       throw new Error("Failed to fetch data");
     }
-    const [note, user] = await Promise.all([noteData.json(), userData.json()]);
-    return { note, user };
+    const [note, user, sharedNote] = await Promise.all([
+      noteData.json(),
+      userData.json(),
+      sharedNoteData.json(),
+    ]);
+    return { note, user, sharedNote };
   } catch (error) {
     console.error("Error loading data:", error);
     throw error;
   }
 }
-
-// async function handleAddNote(e) {
-//   e.preventDefault();
-//   try {
-//     const response = await fetch(
-//       `${import.meta.env.VITE_API_URL}/api/users/notes`,
-//       {
-//         method: "POST",
-//         headers: { "Content-type": "application/json" },
-//         body: JSON.stringify({
-//           title,
-//           content,
-//         }),
-//         credentials: "include",
-//       }
-//     );
-//     if (response.status !== 201) {
-//       throw new Error("error while creating note");
-//     } else {
-//       setTitle("");
-//       setContent("");
-//       revalidator.revalidate();
-//     }
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }

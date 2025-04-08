@@ -9,10 +9,10 @@ class NoteRepository extends AbstractRepository {
 
   // The C of CRUD - Create operation
 
-  async create(note, userID) {
+  async create(note, userId) {
     const [result] = await this.database.query(
       `insert into ${this.table} (user_id, title, content) values (?, ?, ?)`,
-      [userID, note.title, note.content]
+      [userId, note.title, note.content]
     );
 
     return result.insertId;
@@ -36,6 +36,14 @@ class NoteRepository extends AbstractRepository {
     const [rows] = await this.database.query(`select * from ${this.table}`);
 
     // Return the array of items
+    return rows;
+  }
+
+  async readSharedNotes(userId) {
+    const [rows] = await this.database.query(
+      `select title, content, n.id from ${this.table} n inner join SharedNote sn on n.id = sn.note_id where sn.shared_user_id = ?`,
+      [userId]
+    );
     return rows;
   }
 
