@@ -44,11 +44,8 @@ function AddNote({ title, setTitle, content, setContent, email, setEmail }) {
   }
 
   return (
-    <form
-      onSubmit={handleAddNote}
-      className=" w-full flex flex-col h-[500px] gap-2 p-10"
-    >
-      <h2 className="text-white ">Add a new note</h2>
+    <form onSubmit={handleAddNote} className="flex flex-col gap-2 p-10 ">
+      <h2 className="text-white ">Create a new note</h2>
       <input
         className="h-10 p-2 rounded-sm "
         onChange={(e) => setTitle(e.target.value)}
@@ -66,7 +63,7 @@ function AddNote({ title, setTitle, content, setContent, email, setEmail }) {
         type="text"
         required
         value={content}
-        placeholder="type your note"
+        placeholder="content"
         rows="5"
       />
       <h3 className="text-white">Want to share this note?</h3>
@@ -77,7 +74,7 @@ function AddNote({ title, setTitle, content, setContent, email, setEmail }) {
         type="email"
         name="email"
         value={email}
-        placeholder="type your friend's email"
+        placeholder="e-mail"
       />
       {!validEmail ? (
         <div>

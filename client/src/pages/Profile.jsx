@@ -49,7 +49,7 @@ function Profile() {
         </ul>
       </nav>
       <div className="flex flex-col items-center justify-center w-full sm:flex-row">
-        <section className="w-[400px] rounded-md bg-redd mt-10">
+        <section className="rounded-md w-96 md:w-42 xl:w-[400px] bg-redd">
           <AddNote
             user={user}
             content={content}
@@ -60,9 +60,10 @@ function Profile() {
             setEmail={setEmail}
           />
         </section>
-        <section className="flex flex-col items-end self-start w-2/3 p-10 ">
+        <section className="flex flex-col items-end ">
           <div>
             <h2 className="mt-5 mb-5">My Notes</h2>
+
             <div className="flex w-full gap-4 ">
               {note.map((el) => (
                 <Note
