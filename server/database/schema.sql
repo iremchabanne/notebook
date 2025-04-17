@@ -20,6 +20,6 @@ create table SharedNote (
     shared_user_email VARCHAR(50) not null,
     shared_user_id int unsigned,
     note_id int unsigned not null,
-    FOREIGN KEY (note_id) REFERENCES note (id),
+    FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE,
     FOREIGN KEY (shared_user_id) REFERENCES user (id)
 )

@@ -36,7 +36,7 @@ const add = async (req, res, next) => {
   const userID = req.auth.sub;
   try {
     const insertId = await tables.note.create(note, userID);
-    if (note.shared_email === null) {
+    if (note.shared_email === "") {
       res.status(201).json({ insertId });
     } else {
       const sharedUser = await tables.user.readByEmail(note.shared_email);

@@ -58,7 +58,7 @@ function Register() {
             Sign up
           </button>
         </Form>
-        <div className="flex flex-col items-end gap-2 sm:items-start ">
+        <div className="flex flex-col items-end gap-2">
           <h3 className=" text-blackk">already have an account?</h3>
           <Link to="/login">
             <button
